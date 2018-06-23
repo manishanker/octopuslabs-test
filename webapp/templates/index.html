@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/wordcloud.js"></script>
+
+	<script type="text/javascript">
+		function post_request(){
+			var url = $("#url").val();
+		    console.log("url", url);
+		    var data = {url: url, token: 1}
+		    $.ajax({
+		        		type: "POST",
+		        		url: "http://localhost:8888/result",
+		        		contentType: 'application/json',
+		        		data : JSON.stringify(data),
+		        		success: function(result){
+            					var d=[];
+            					console.log(result["result"]);
+            					var obj = result["result"];
+								for (var key in obj) {
+									var temp=[];
+									if (obj.hasOwnProperty(key)) {
+									    temp.push(key);
+									    temp.push(obj[key])
+									  }
+									  d.push(temp);
+									}
+            					wordcloud(d);
+        					}});
+		}
+
+	</script>
+	<script type="text/javascript">
+		window.onload = function() {
+  			$("#canvas").hide();
+		};
+	</script>
+	
+	<script type="text/javascript">
+		function wordcloud(d) {
+			$("#canvas").show();
+			WordCloud(document.getElementById('myCanvas'), { list: d } );
+		}
+	</script>
+	<div>
+		<form>
+			URL: <input type="text" id="url" name="url"><br>
+			<input id="submit" value="Submit" onclick="post_request()">
+		</form>
+	</div>
+	<div id="canvas">
+		<canvas id="myCanvas" width="300" height="300" style="border:1px solid #000000;">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+
+	</div>
+	</body>
+</html>
