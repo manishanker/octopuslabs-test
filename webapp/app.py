@@ -7,6 +7,7 @@ import tornado.web
 from tornado.options import define, options
 from tornado.template import Template
 from scrape import parse
+from sentiment import get_intent
 import os
 import urllib
 from tornado.escape import json_decode, json_encode
@@ -59,6 +60,7 @@ class ScrapedDataHandler(tornado.web.RequestHandler):
        	body=json.loads(self.request.body)
         url = body['url']
         token = body['token']
+        sentiment = get_intent(url)
         result = parse(url)
         response = {'result': result}
         self.write(response)

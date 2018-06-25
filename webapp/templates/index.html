@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	  	<script type="text/javascript" src="../static/js/wordcloud.js"></script>
+	  	<script type="text/javascript" src="../static/js/config.js"></script>
+	  	<title>Most frequent words in a website</title>
+	</head>
 	<body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript" src="../static/js/wordcloud.js"></script>
 
 	<script type="text/javascript">
 		function post_request(){
 			var url = $("#url").val();
-		    console.log("url", url);
 		    var data = {url: url, token: 1}
 		    $.ajax({
 		        		type: "POST",
@@ -16,20 +23,21 @@
 		        		data : JSON.stringify(data),
 		        		success: function(result){
             					var d=[];
-            					console.log(result["result"]);
             					var obj = result["result"];
 								for (var key in obj) {
 									var temp=[];
 									if (obj.hasOwnProperty(key)) {
 									    temp.push(key);
-									    temp.push(obj[key])
+									    // here 2 is added as a baseline score for the wordcloud
+									    //to show the text which is visible. Unfortunately, minSize
+									    //of wordcloud is not supported everywhere
+									    temp.push(obj[key] + config.delta); 
 									  }
 									  d.push(temp);
 									}
             					wordcloud(d);
         					}});
 		}
-
 	</script>
 	<script type="text/javascript">
 		window.onload = function() {
@@ -40,7 +48,17 @@
 	<script type="text/javascript">
 		function wordcloud(d) {
 			$("#canvas").show();
-			WordCloud(document.getElementById('myCanvas'), { list: d } );
+			WordCloud(document.getElementById('canvas'), { 
+				list: d,
+				gridSize: Math.round(10 * $('#canvas').width() / 1024),
+				weightFactor: function (size) {
+    				return Math.pow(size, 2.3) * $('#canvas').width() / 1024;
+  				},
+				backgroundColor: '#000',
+				fontFamily: 'Times, serif',
+				rotateRatio: 0.5,
+  				rotationSteps: 2
+  			} );
 		}
 	</script>
 	<div>
@@ -49,8 +67,8 @@
 			<input id="submit" value="Submit" onclick="post_request()">
 		</form>
 	</div>
-	<div id="canvas">
-		<canvas id="myCanvas" width="300" height="300" style="border:1px solid #000000;">
+	<div id="canvas" style="width: 900">
+		<canvas id="canvas" width="700" height="700" style="border:1px solid #000000;">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
 

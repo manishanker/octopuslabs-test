@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 from bs4 import BeautifulSoup as bs
 from bs4.element import Comment
 from urllib2 import urlopen
@@ -32,7 +34,8 @@ def text_from_html(soup):
     """Function to extract the text from the html"""
 
     texts = soup.findAll(text=True)
-    visible_texts = filter(tag_visible, texts)  
+    visible_texts = filter(tag_visible, texts)
+
     return u" ".join(t.strip() for t in visible_texts)
 
 def pos_text(text):
@@ -77,3 +80,4 @@ def parse(url):
     else:
         print "Alert the url could not be found"
         return ""
+parse('https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/dont-want-to-overwork-myself-says-manisha-koirala/articleshow/64721487.cms')
