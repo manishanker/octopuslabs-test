@@ -17,8 +17,8 @@
 		    var data = { token: 1}
 		    $.ajax({
 		        		type: "POST",
-		        		url: "http://172.29.155.27:8888/adminresult",
-		        		//url: "http://" + config.url + ":8888/admin",
+		        		//url: "http://172.29.155.27:8888/adminresult",
+		        		url: "http://" + config.url + ":8888/adminresult",
 		        		contentType: 'application/json',
 		        		data : JSON.stringify(data),
 		        		success: function(result){
