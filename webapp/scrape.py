@@ -90,4 +90,4 @@ def parse(url):
     else:
         print "Alert the url could not be found"
         return ""
-parse('https://www.geeksforgeeks.org/python-map-function/')
+#parse('https://www.geeksforgeeks.org/python-map-function/')

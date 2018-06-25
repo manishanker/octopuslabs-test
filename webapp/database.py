@@ -29,10 +29,11 @@ def create_table():
 
     # Create table as per requirement
     sql = """CREATE TABLE IF NOT EXISTS word_data (\
-         word TEXT NOT NULL,\
-         word_encrypted TEXT,\
+         word LONGTEXT NOT NULL,\
+         word_encrypted LONGTEXT,\
          frequency INT,\
-	 PRIMARY KEY(word(4))
+	 PRIMARY KEY(word(100)),\
+	 FULLTEXT (word)\
 	 )"""
     cursor = mydbconn.cursor()
     try:
@@ -50,7 +51,7 @@ def update_table(word_tuple):
     # Create table as per requirement
     sql = "INSERT INTO word_data(\
          word, word_encrypted, frequency)\
-	 VALUES ('%s', '%s', '%d')" %\
+	 VALUES ('%s', '%s', '%d') ON DUPLICATE KEY UPDATE frequency = frequency + values(frequency)"  %\
 	 (word_tuple[0], word_tuple[1], word_tuple[2])
     #print "sql update", sql
     cursor = mydbconn.cursor()
