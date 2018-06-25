@@ -29,4 +29,8 @@ def get_intent(url_target):
 	#print response.json()["entities"]["sentiment"]
 	result_list= response.json()["entities"]["sentiment"]
 	if len(result_list):
-		return result_list[0]["value"]
+	    print "sent", result_list[0]["value"]
+	    return result_list[0]["value"]
+	else:
+	    print "unknown"
+	    return "unkown"

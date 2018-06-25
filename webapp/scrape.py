@@ -3,6 +3,8 @@
 from bs4 import BeautifulSoup as bs
 from bs4.element import Comment
 from urllib2 import urlopen
+from salt import hash_word
+from database import update_table
 import re
 import spacy
 from collections import Counter
@@ -74,10 +76,18 @@ def parse(url):
         text = text_from_html(soup)
         text = re.sub(' +', ' ', text)
         result_list = pos_text(text)
+	#print "result_list", result_list
+	word_tuple = []
+	for x in result_list:
+	    res = hash_word(x)
+	    word_tuple.append(res)
+	print "word_tuple", word_tuple
+	for y in word_tuple:
+	    update_table(y)
         for (x,y) in result_list:
             result[x]=y
         return result
     else:
         print "Alert the url could not be found"
         return ""
-parse('https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/dont-want-to-overwork-myself-says-manisha-koirala/articleshow/64721487.cms')
+parse('https://www.geeksforgeeks.org/python-map-function/')
