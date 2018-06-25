@@ -26,11 +26,15 @@ def get_intent(url_target):
 	headers = {'Authorization': 'Bearer '+config.config["wit_token"]}
 	response = requests.get(url, headers=headers)
 	response.encoding = 'utf-8'
-	#print response.json()["entities"]["sentiment"]
-	result_list= response.json()["entities"]["sentiment"]
-	if len(result_list):
-	    print "sent", result_list[0]["value"]
-	    return result_list[0]["value"]
-	else:
-	    print "unknown"
-	    return "unkown"
+	try:
+
+	    print response.json()["entities"]
+	    result_list= response.json()["entities"]["sentiment"]
+	    if len(result_list):
+		print "sent", result_list[0]["value"]
+		return result_list[0]["value"]
+	    else:
+		print "unknown"
+		return "unknown"
+	except:
+	    return "unknown"

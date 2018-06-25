@@ -62,17 +62,25 @@
   			} );
 		}
 	</script>
-	<div>
-		<form>
-			URL: <input type="text" id="url" name="url"><br>
+	<div class="container">
+	<h2> Enter the URL below : </h2>
+    	<div class="form-group">
+	    <label for="usr">URL:</label>
+	    <input type="text" class="form-control" id="url">
+			<!--URL: <input type="text" id="url" name="url"><br>-->
+	</div>
+	<div class="form-group">
+	<!--
 			<input id="submit" value="Submit" onclick="post_request()">
-		</form>
+			-->
+			<button type="button" class="btn btn-success" onclick="post_request()">Submit</button>
 	</div>
 	<div id="canvas" style="width: 900">
 		<canvas id="canvas" width="700" height="700" style="border:1px solid #000000;">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
 
+	</div>
 	</div>
 	</body>
 </html>
