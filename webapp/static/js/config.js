@@ -1,3 +1,4 @@
 var config = {
-	delta : 2
+	delta : 2,
+	url : "localhost"
 };

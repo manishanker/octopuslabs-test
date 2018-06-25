@@ -3,8 +3,10 @@
 from bs4 import BeautifulSoup as bs
 from bs4.element import Comment
 from urllib2 import urlopen
+from urllib import quote
 from salt import hash_word
-from database import update_table
+from database import update_table, show_data
+from sentiment import get_intent
 import re
 import spacy
 from collections import Counter
@@ -82,12 +84,23 @@ def parse(url):
 	    res = hash_word(x)
 	    word_tuple.append(res)
 	print "word_tuple", word_tuple
+	url_hashed = hash_word(quote(url))
+	sent = get_intent(url)
+	update_table((url_hashed, sent), "string")
 	for y in word_tuple:
-	    update_table(y)
+	    update_table(y, "tuple")
         for (x,y) in result_list:
             result[x]=y
         return result
     else:
         print "Alert the url could not be found"
         return ""
+
+def show():
+    (result1, result2) = show_data()
+    url_data = {}
+    #print "resss", result1, result2
+    return {'url_data': ['url1','neutral'], 'word_data': ['mani', 4]} 
+
+#show()
 #parse('https://www.geeksforgeeks.org/python-map-function/')

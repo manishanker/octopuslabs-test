@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	  	<script type="text/javascript" src="../static/js/wordcloud.js"></script>
+	  	<script type="text/javascript" src="../static/js/config.js"></script>
+	  	<title>Most frequent words in a website ADMIN</title>
+	</head>
+	<body>
+
+	<script type="text/javascript">
+		function post_request(){
+		    var data = { token: 1}
+		    $.ajax({
+		        		type: "POST",
+		        		url: "http://172.29.155.27:8888/adminresult",
+		        		//url: "http://" + config.url + ":8888/admin",
+		        		contentType: 'application/json',
+		        		data : JSON.stringify(data),
+		        		success: function(result){
+            					var d=[];
+						console.log("res", result);
+        					}});
+		}
+	</script>
+	
+	<div class="container">
+	    <h2> Admin data </h2>
+	    <button type="button" class="btn btn-success" onclick="post_request()">show</button>
+	</div>
+
+	</body>
+</html>

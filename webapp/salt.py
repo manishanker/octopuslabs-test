@@ -18,20 +18,26 @@ def hash_word(word):
 	k = open(salt_path + '/salt.txt')
 	salt = k.read()
     print "word", word
-    word_original = word[0]
-    freq = word[1]
-    f = open(key_path + '/mykey.pem','r')
-    key = RSA.importKey(f.read())
-    print "freq", freq    
-    word_salted = hashlib.sha256(salt.encode() + word_original.encode()).hexdigest() + ':' + salt
-    word_encrypt = encrypt_message(word_original, key)
-    final = (word_salted, word_encrypt, freq)
-    return final
+    if not isinstance(word, str):
+	word_original = word[0]
+	freq = word[1]
+	f = open(key_path + '/mykey.pem','r')
+	key = RSA.importKey(f.read())
+	print "freq", freq    
+	word_salted = hashlib.sha256(salt.encode() + word_original.encode()).hexdigest() + ':' + salt
+	word_encrypt = encrypt_message(word_original, key)
+	final = (word_salted, word_encrypt, freq)
+	return final
+    else:
+	return hashlib.sha256(salt.encode() + word.encode()).hexdigest() + ':' + salt
     
-def check_word(hashed_word, user_word):
+def unhash_word(hashed_word, user_word):
     word, salt = hashed_word.split(':')
-    return word == hashlib.sha256(salt.encode() + user_word.encode()).hexdigest()
+    return hashlib.sha256(salt.encode() + user_word.encode()).hexdigest()
 
 #t=("mani", 5)
 #k=hash_word(t)
 #print k
+#o='mani'
+#tt=hash_word(o)
+#print o
